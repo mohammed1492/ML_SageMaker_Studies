@@ -5,12 +5,12 @@ import os
 import pandas as pd
 
 # sklearn.externals.joblib is deprecated in 0.21 and will be removed in 0.23. 
-# from sklearn.externals import joblib
+from sklearn.externals import joblib
 # Import joblib package directly
-import joblib
+#import joblib
 
 ## TODO: Import any additional libraries you need to define a model
-
+from sklearn.linear_model import LogisticRegression
 
 # Provided model load function
 def model_fn(model_dir):
@@ -39,7 +39,8 @@ if __name__ == '__main__':
     # Do not need to change
     parser.add_argument('--output-data-dir', type=str, default=os.environ['SM_OUTPUT_DATA_DIR'])
     parser.add_argument('--model-dir', type=str, default=os.environ['SM_MODEL_DIR'])
-    parser.add_argument('--data-dir', type=str, default=os.environ['SM_CHANNEL_TRAIN'])
+    print('SM_TRAIN is ',os.environ['SM_CHANNEL_TRAINING'])
+    parser.add_argument('--data-dir', type=str, default=os.environ['SM_CHANNEL_TRAINING'])
     
     ## TODO: Add any additional arguments that you will need to pass into your model
     
@@ -48,6 +49,7 @@ if __name__ == '__main__':
 
     # Read in csv training file
     training_dir = args.data_dir
+    print(training_dir)
     train_data = pd.read_csv(os.path.join(training_dir, "train.csv"), header=None, names=None)
 
     # Labels are in the first column
@@ -59,11 +61,11 @@ if __name__ == '__main__':
     
 
     ## TODO: Define a model 
-    model = None
+    model = LogisticRegression(solver='liblinear', class_weight='balanced', n_jobs=-1)
     
     
     ## TODO: Train the model
-    
+    model.fit(train_x, train_y)
     
     
     ## --- End of your code  --- ##
