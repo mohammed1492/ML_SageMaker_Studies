@@ -10,8 +10,8 @@ from sklearn.externals import joblib
 #import joblib
 
 ## TODO: Import any additional libraries you need to define a model
-from sklearn.linear_model import LogisticRegression
-
+#from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
 # Provided model load function
 def model_fn(model_dir):
     """Load model from the model_dir. This is the same model that is saved
@@ -61,7 +61,9 @@ if __name__ == '__main__':
     
 
     ## TODO: Define a model 
-    model = LogisticRegression(solver='liblinear', class_weight='balanced', n_jobs=-1)
+#     model = LogisticRegression(solver='liblinear', class_weight='balanced', n_jobs=-1)
+    
+    model = DecisionTreeClassifier()
     
     
     ## TODO: Train the model
